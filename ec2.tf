@@ -31,7 +31,10 @@ resource "aws_security_group" "allow_tls" {
 
 resource "aws_instance" "ec2instance" {
   ami           = "ami-090e0fc566929d98b"
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
+   root_block_device  {
+      volume_size = 20
+    }
   key_name = aws_key_pair.provisioner.key_name
   security_groups = [aws_security_group.allow_tls.name]
   user_data = "${file("scripts/docker.sh")}"

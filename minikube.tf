@@ -7,8 +7,8 @@ module "minikube" {
   # we upload public key to EC2 instances
   ssh_public_key = var.key_location
   aws_subnet_id = local.public_subnet_ids[0] #us-east-1a public subnet
-  #hosted_zone = var.hosted_zone
-  #hosted_zone_private = false
+  hosted_zone = var.hosted_zone
+  hosted_zone_private = false
 
   tags = {
     Application = var.project_name

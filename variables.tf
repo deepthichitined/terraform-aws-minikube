@@ -41,9 +41,9 @@ variable "key_name" {
 }
 
 variable "key_location" {
-  default = "C:\\Users\\user\\kubernetes.pub"
+  default = "C:\\Users\\manid\\provisioner.pub"
 }
 
 variable "hosted_zone" {
-  default = "techietrainers.com"
+  default = "cloudcamp.tech"
 }
