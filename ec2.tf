@@ -1,12 +1,12 @@
-resource "aws_key_pair" "provisioner" {
-  key_name   = "provisioner"
-  public_key = file("C:\\Users\\manid\\provisioner.pub")
+resource "aws_key_pair" "kubernetes" {
+  key_name   = var.key_name
+  public_key = file(var.key_location)
 }
 
 resource "aws_security_group" "allow_tls" {
   name        = "allow-tls"
   description = "Allow all ports"
-  vpc_id      = "vpc-0cfe2936d836cb8dc" #default vpc id
+  vpc_id      = local.vpc_id 
 
   ingress {
     description      = "TLS from VPC"
@@ -29,15 +29,17 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
-resource "aws_instance" "ec2instance" {
-  ami           = "ami-090e0fc566929d98b"
+resource "aws_instance" "workstation" {
+  ami           = data.aws_ami.ami_id.id
   instance_type = "t3.medium"
    root_block_device  {
       volume_size = 20
     }
-  key_name = aws_key_pair.provisioner.key_name
-  security_groups = [aws_security_group.allow_tls.name]
+  key_name = aws_key_pair.kubernetes.key_name
+  security_groups = [aws_security_group.allow_tls.id]
   user_data = "${file("scripts/docker.sh")}"
+  subnet_id = local.public_subnet_ids[0]
+  associate_public_ip_address = true
   tags = {
     Name = "provisioner"
   }

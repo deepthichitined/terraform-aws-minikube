@@ -41,7 +41,7 @@ variable "key_name" {
 }
 
 variable "key_location" {
-  default = "C:\\Users\\manid\\provisioner.pub"
+  default = "C:\\Users\\manid\\kubernetes.pub"
 }
 
 variable "hosted_zone" {
